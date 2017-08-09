@@ -136,6 +136,16 @@ export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
       return /*:: concatL(*/e/*::) */.mapR(fn => fn(this.value))
     return /*:: changeR(concatL( */e /*::)) */
   }
+
+
+
+  toString() {
+    return 'Right( ' + failSafeStringify(this.value) + ' )'
+  }
+
+  inspect() {
+    return this.toString()
+  }
 }
 
 export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
@@ -264,11 +274,28 @@ export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
   ap<R1, L1>(/*:: e: Apropos<((x: R) => R1), L1>*/): Apropos<R1, L | L1> {
     return /*:: changeR(concatL( */this /*::)) */
   }
+
+
+
+  toString() {
+    return 'Left( ' + failSafeStringify(this.value) + ' )'
+  }
+
+  inspect() {
+    return this.toString()
+  }
 }
 
 makeRight(EitherRight)
 makeLeft(EitherLeft)
 
+function failSafeStringify(value: any) {
+  try {
+    return JSON.stringify(value)
+  } catch (error) {
+    return String(value)
+  }
+}
 
 /**
  * Create right-handed value.
