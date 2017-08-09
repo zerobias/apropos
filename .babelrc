@@ -2,7 +2,7 @@
   "presets": [
   ],
   "plugins": [
-    "transform-flow-comments",
+    "transform-flow-strip-types",
     "transform-class-properties",
     ["transform-es2015-block-scoping", {
       "throwIfClosureRequired": false
