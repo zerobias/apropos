@@ -1,0 +1,24 @@
+{
+  "presets": [
+  ],
+  "plugins": [
+    "transform-flow-comments",
+    "transform-class-properties",
+    ["transform-es2015-block-scoping", {
+      "throwIfClosureRequired": false
+    }],
+    ["transform-object-rest-spread", { "useBuiltIns": true }]
+  ],
+  "env": {
+    "commonjs": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
+    },
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
+    }
+  }
+}
