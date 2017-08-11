@@ -1,3 +1,7 @@
+# 0.3.0
+- **Breaking**. Flip L (left) and R (right) generics: `Apropos<R, L>` becomes `Apropos<L, R>`
+- Add `ofL` function
+- Improve `.cond` type inference
 
 # 0.2.0
 

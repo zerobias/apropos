@@ -5,9 +5,9 @@ import { type Apropos } from './index.h'
 
 
 
-export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
+export class EitherRight<L, R> extends Isomer implements Apropos<L, R> {
   value: R
-  constructor(value: R): Apropos<R, L> {
+  constructor(value: R): Apropos<L, R> {
     super()
     this.value = value
     /*:: return this */
@@ -23,11 +23,11 @@ export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
     return Promise.resolve(this.value)
   }
 
-  fold<O>(r: (x: R) => O/*:: , l: (x: L) => O*/): O {
+  fold<O>(l: (x: L) => O, r: (x: R) => O): O {
     return r(this.value)
   }
 
-  swap(): Apropos<L, R> {
+  swap(): Apropos<R, L> {
     return new EitherLeft(this.value)
   }
 
@@ -45,17 +45,17 @@ export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
 
   // --- Tap section ---
 
-  tap(fn: (x: R) => any): Apropos<R, L> {
+  tap(fn: (x: R) => any): Apropos<L, R> {
     return this.tapR(fn)
   }
-  tapR(fn: (x: R) => any): Apropos<R, L> {
+  tapR(fn: (x: R) => any): Apropos<L, R> {
     fn(this.value)
     return this
   }
-  tapL(/*:: fn: (x: L) => any */): Apropos<R, L> {
+  tapL(/*:: fn: (x: L) => any */): Apropos<L, R> {
     return this
   }
-  bitap(r: (x: R) => any/*:: , l: (x: L) => any */): Apropos<R, L> {
+  bitap(l: (x: L) => any, r: (x: R) => any): Apropos<L, R> {
     return this.tapR(r)
   }
 
@@ -63,16 +63,16 @@ export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
 
   // --- Map section ---
 
-  map<R1>(fn: (x: R) => R1): Apropos<R1, L> {
+  map<R1>(fn: (x: R) => R1): Apropos<L, R1> {
     return this.mapR(fn)
   }
-  mapR<R1>(fn: (x: R) => R1): Apropos<R1, L> {
+  mapR<R1>(fn: (x: R) => R1): Apropos<L, R1> {
     return new EitherRight(fn(this.value))
   }
-  mapL<L1>(/*:: fn: (x: L) => L1 */): Apropos<R, L1> {
+  mapL<L1>(/*:: fn: (x: L) => L1 */): Apropos<L1, R> {
     return /*:: changeL( */this /*::) */
   }
-  bimap<R1, L1>(r: (x: R) => R1/*:: , l: (x: L) => L1 */): Apropos<R1, L1> {
+  bimap<L1, R1>(l: (x: L) => L1, r: (x: R) => R1): Apropos<L1, R1> {
     return /*:: changeL( */this.mapR(r) /*::) */
   }
 
@@ -80,19 +80,19 @@ export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
 
   // --- Chain section ---
 
-  chain<R1, L1>(fn: (x: R) => Apropos<R1, L1>): Apropos<R1, L | L1> {
+  chain<L1, R1>(fn: (x: R) => Apropos<L1, R1>): Apropos<L | L1, R1> {
     return this.chainR(fn)
   }
-  chainR<R1, L1>(fn: (x: R) => Apropos<R1, L1>): Apropos<R1, L | L1> {
+  chainR<L1, R1>(fn: (x: R) => Apropos<L1, R1>): Apropos<L | L1, R1> {
     return /*:: concatL(*/fn(this.value)/*::) */
   }
-  chainL<R1, L1>(/*:: fn: (x: L) => Apropos<R1, L1> */): Apropos<R | R1, L1> {
+  chainL<L1, R1>(/*:: fn: (x: L) => Apropos<L1, R1> */): Apropos<L1, R | R1> {
     return /*:: changeL(concatR(*/this/*::)) */
   }
-  bichain<R1, R2, L1, L2>(
-    r: (x: R) => Apropos<R1, L1>
-    /*::, l: (x: L) => Apropos<R2, L2> */
-  ): Apropos<R1 | R2, L1 | L2> {
+  bichain<L1, L2, R1, R2>(
+    l: (x: L) => Apropos<L2, R2>,
+    r: (x: R) => Apropos<L1, R1>
+  ): Apropos<L1 | L2, R1 | R2> {
     return /*:: concatR(concatL(*/r(this.value)/*::)) */
   }
 
@@ -104,24 +104,23 @@ export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
     return fn(this.value)
   }
 
-  chainCond<R1, L1>(
+  chainCond<L1, R1>(
     cond: (x: R) => boolean,
     pass: (x: R) => R1,
     fail: (x: R) => L1
-  ): Apropos<R1, L | L1> {
+  ): Apropos<L | L1, R1> {
     if (this.cond(cond))
       return /*:: concatL( */this.mapR(pass) /*::) */
     else
       return /*:: changeR( */new EitherLeft(fail(this.value))/*::) */
   }
 
-  logic<R1, L1>({
-    cond, pass, fail
-  }: {
+  logic<L1, R1>(transformer: {
     cond: (x: R) => boolean,
     pass: (x: R) => R1,
     fail: (x: R) => L1
-  }): Apropos<R1, L | L1> {
+  }): Apropos<L | L1, R1> {
+    const { cond, pass, fail } = transformer
     return this.chainCond(cond, pass, fail)
   }
 
@@ -129,19 +128,23 @@ export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
 
   // --- Combine section ---
 
-  alt<R1, L1>(/*::e: Apropos<R1, L1>*/): Apropos<R | R1, L1> {
+  alt<L1, R1>(/*::e: Apropos<L1, R1>*/): Apropos<L1, R | R1> {
     return /*:: concatR(changeL( */this /*::)) */
   }
 
-  and<R1, L1>(e: Apropos<R1, L1>): Apropos<R1, L | L1> {
+  or<L1, R1>(/*::e: Apropos<L1, R1>*/): Apropos<L1, R | R1> {
+    return /*:: concatR(changeL( */this /*::)) */
+  }
+
+  and<L1, R1>(e: Apropos<L1, R1>): Apropos<L | L1, R1> {
     return /*:: concatL(*/e/*::) */
   }
 
-  thru<R1, L1>(fn: (x: Apropos<R, L>) => Apropos<R1, L1>): Apropos<R1, L1> {
+  thru<L1, R1>(fn: (x: Apropos<L, R>) => Apropos<L1, R1>): Apropos<L1, R1> {
     return fn(this)
   }
 
-  ap<R1, L1>(e: Apropos<((x: R) => R1), L1>): Apropos<R1, L | L1> {
+  ap<L1, R1>(e: Apropos<L1, ((x: R) => R1)>): Apropos<L | L1, R1> {
     if (e.isRight())
       return /*:: concatL(*/e/*::) */.mapR(fn => fn(this.value))
     return /*:: changeR(concatL( */e /*::)) */
@@ -158,9 +161,9 @@ export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
   }
 }
 
-export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
+export class EitherLeft<L, R> extends Isomer implements Apropos<L, R> {
   value: L
-  constructor(value: L): Apropos<R, L> {
+  constructor(value: L): Apropos<L, R> {
     super()
     this.value = value
     /*:: return this */
@@ -176,11 +179,11 @@ export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
     return Promise.reject(this.value)
   }
 
-  fold<O>(r: (x: R) => O, l: (x: L) => O): O {
+  fold<O>(l: (x: L) => O/*::, r: (x: R) => O*/): O {
     return l(this.value)
   }
 
-  swap(): Apropos<L, R> {
+  swap(): Apropos<R, L> {
     return new EitherRight(this.value)
   }
 
@@ -198,17 +201,17 @@ export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
 
   // --- Tap section ---
 
-  tap(fn: (x: R) => any): Apropos<R, L> {
+  tap(fn: (x: R) => any): Apropos<L, R> {
     return this.tapR(fn)
   }
-  tapR(/*:: fn: (x: R) => any*/): Apropos<R, L> {
+  tapR(/*:: fn: (x: R) => any*/): Apropos<L, R> {
     return this
   }
-  tapL(fn: (x: L) => any): Apropos<R, L> {
+  tapL(fn: (x: L) => any): Apropos<L, R> {
     fn(this.value)
     return this
   }
-  bitap(r: (x: R) => any, l: (x: L) => any): Apropos<R, L> {
+  bitap(l: (x: L) => any, /*::r: (x: R) => any*/): Apropos<L, R> {
     return this.tapL(l)
   }
 
@@ -216,16 +219,16 @@ export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
 
   // --- Map section ---
 
-  map<R1>(/*:: fn: (x: R) => R1*/): Apropos<R1, L> {
+  map<R1>(/*:: fn: (x: R) => R1*/): Apropos<L, R1> {
     return /*:: changeR( */this /*::) */
   }
-  mapR<R1>(/*:: fn: (x: R) => R1*/): Apropos<R1, L> {
+  mapR<R1>(/*:: fn: (x: R) => R1*/): Apropos<L, R1> {
     return /*:: changeR( */this /*::) */
   }
-  mapL<L1>(fn: (x: L) => L1): Apropos<R, L1> {
+  mapL<L1>(fn: (x: L) => L1): Apropos<L1, R> {
     return new EitherLeft(fn(this.value))
   }
-  bimap<R1, L1>(r: (x: R) => R1, l: (x: L) => L1): Apropos<R1, L1> {
+  bimap<L1, R1>(l: (x: L) => L1/*::, r: (x: R) => R1*/): Apropos<L1, R1> {
     return /*:: changeR( */this.mapL(l) /*::) */
   }
 
@@ -233,19 +236,19 @@ export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
 
   // --- Chain section ---
 
-  chain<R1, L1>(fn: (x: R) => Apropos<R1, L1>): Apropos<R1, L | L1> {
+  chain<L1, R1>(fn: (x: R) => Apropos<L1, R1>): Apropos<L | L1, R1> {
     return this.chainR(fn)
   }
-  chainR<R1, L1>(/*:: fn: (x: R) => Apropos<R1, L1>*/): Apropos<R1, L | L1> {
+  chainR<L1, R1>(/*:: fn: (x: R) => Apropos<L1, R1>*/): Apropos<L | L1, R1> {
     return /*:: changeR(concatL(*/this/*::)) */
   }
-  chainL<R1, L1>(fn: (x: L) => Apropos<R1, L1>): Apropos<R | R1, L1> {
+  chainL<L1, R1>(fn: (x: L) => Apropos<L1, R1>): Apropos<L1, R | R1> {
     return /*:: concatR(*/fn(this.value)/*::) */
   }
-  bichain<R1, R2, L1, L2>(
-    r: (x: R) => Apropos<R1, L1>,
-    l: (x: L) => Apropos<R2, L2>
-  ): Apropos<R1 | R2, L1 | L2> {
+  bichain<L1, L2, R1, R2>(
+    l: (x: L) => Apropos<L2, R2>
+    /*::, r: (x: R) => Apropos<L1, R1>*/
+  ): Apropos<L1 | L2, R1 | R2> {
     return /*:: concatR(concatL(*/l(this.value)/*::)) */
   }
 
@@ -257,21 +260,19 @@ export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
     return false
   }
 
-  chainCond<R1, L1>(/*::
+  chainCond<L1, R1>(/*::
     cond: (x: R) => boolean,
     pass: (x: R) => R1,
     fail: (x: R) => L1*/
-  ): Apropos<R1, L | L1> {
+  ): Apropos<L | L1, R1> {
     return /*:: changeR(concatL(*/this/*::)) */
   }
 
-  logic<R1, L1>(/*::{
-    cond, pass, fail
-  }: {
+  logic<L1, R1>(/*::transformer: {
     cond: (x: R) => boolean,
     pass: (x: R) => R1,
     fail: (x: R) => L1
-  }*/): Apropos<R1, L | L1> {
+  }*/): Apropos<L | L1, R1> {
     return /*:: changeR(concatL(*/this/*::)) */
   }
 
@@ -279,19 +280,23 @@ export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
 
   // --- Combine section ---
 
-  alt<R1, L1>(e: Apropos<R1, L1>): Apropos<R | R1, L1> {
+  alt<L1, R1>(e: Apropos<L1, R1>): Apropos<L1, R | R1> {
     return  /*:: concatR(*/e/*::) */
   }
 
-  and<R1, L1>(/*:: e: Apropos<R1, L1>*/): Apropos<R1, L | L1> {
+  or<L1, R1>(e: Apropos<L1, R1>): Apropos<L1, R | R1> {
+    return this.alt(e)
+  }
+
+  and<L1, R1>(/*:: e: Apropos<L1, R1>*/): Apropos<L | L1, R1> {
     return /*:: changeR(concatL( */this /*::)) */
   }
 
-  thru<R1, L1>(fn: (x: Apropos<R, L>) => Apropos<R1, L1>): Apropos<R1, L1> {
+  thru<L1, R1>(fn: (x: Apropos<L, R>) => Apropos<L1, R1>): Apropos<L1, R1> {
     return fn(this)
   }
 
-  ap<R1, L1>(/*:: e: Apropos<((x: R) => R1), L1>*/): Apropos<R1, L | L1> {
+  ap<L1, R1>(/*:: e: Apropos<L1, ((x: R) => R1)>*/): Apropos<L | L1, R1> {
     return /*:: changeR(concatL( */this /*::)) */
   }
 
@@ -325,9 +330,9 @@ function failSafeStringify(value: any) {
  * @template R
  * @template L
  * @param {R} value
- * @returns {Apropos<R, L>}
+ * @returns {Apropos<L, R>}
  */
-export function Right<R, -L>(value: R): Apropos<R, L> {
+export function Right<-L, R>(value: R): Apropos<L, R> {
   return new EitherRight(value)
 }
 
@@ -339,9 +344,9 @@ export function Right<R, -L>(value: R): Apropos<R, L> {
  * @template R
  * @template L
  * @param {L} value
- * @returns {Apropos<R, L>}
+ * @returns {Apropos<L, R>}
  */
-export function Left<-R, L>(value: L): Apropos<R, L> {
+export function Left<L, -R>(value: L): Apropos<L, R> {
   return new EitherLeft(value)
 }
 
@@ -352,10 +357,23 @@ export function Left<-R, L>(value: L): Apropos<R, L> {
  *
  * @template R
  * @param {R} value
- * @returns {Apropos<R, void>}
+ * @returns {Apropos<void, R>}
  */
-export function of<R>(value: R): Apropos<R, void> {
+export function of<R>(value: R): Apropos<void, R> {
   return new EitherRight(value)
+}
+
+/**
+ * Create pure left-handed value
+ *
+ * Right-handed type is empty
+ *
+ * @template L
+ * @param {L} value
+ * @returns {Apropos<L, void>}
+ */
+export function ofL<L>(value: L): Apropos<L, void> {
+  return new EitherLeft(value)
 }
 
 
@@ -370,11 +388,11 @@ export function is<-T>(value: T): boolean %checks {
   return value instanceof Isomer
 }
 
-declare function changeL<R, -L, +L1>(r: Apropos<R, L>): Apropos<R, L1>
+declare function changeL<-L, +L1, R>(r: Apropos<L, R>): Apropos<L1, R>
 
-declare function concatL<R, L, +L1>(r: Apropos<R, L>): Apropos<R, L | L1>
+declare function concatL<L, +L1, R>(r: Apropos<L, R>): Apropos<L | L1, R>
 
-declare function changeR<-R, +R1, L>(r: Apropos<R, L>): Apropos<R1, L>
+declare function changeR<L, -R, +R1>(r: Apropos<L, R>): Apropos<L, R1>
 
-declare function concatR<R, +R1, L>(r: Apropos<R, L>): Apropos<R | R1, L>
+declare function concatR<L, R, +R1>(r: Apropos<L, R>): Apropos<L, R | R1>
 

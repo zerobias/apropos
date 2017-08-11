@@ -11,17 +11,19 @@ $ npm install --save apropos
 
 ## API
 
-- [of](https://github.com/zerobias/apropos#of)
-- [Right](https://github.com/zerobias/apropos#Right)
-- [Left](https://github.com/zerobias/apropos#Left)
-- [is](https://github.com/zerobias/apropos#is)
-- [makeError](https://github.com/zerobias/apropos#makeError)
+- [of](#of)
+- [ofL](#ofl)
+- [Right](#right)
+- [Left](#left)
+- [is](#is)
+- [makeError](#makeerror)
 
 ```javascript
 //@flow
 
 import defaultOf, {
   of,
+  ofL,
   Right,
   Left,
   is,
@@ -33,29 +35,33 @@ import defaultOf, {
 
 ### of
 ```javascript
-function of<R>(value: R): Apropos<R, void>
+function of<R>(value: R): Apropos<void, R>
 ```
 
-Create pure right-handed value.
-Left-handed type is empty.
+Create pure right-handed value, left-handed type is empty.
 Exports by default
+
+### ofL
+```javascript
+function ofL<L>(value: L): Apropos<L, void>
+```
+
+Create pure left-handed value, right-handed type is empty.
 
 ### Right
 ```javascript
-function Right<R, -L>(value: R): Apropos<R, L>
+function Right<-L, R>(value: R): Apropos<L, R>
 ```
 
-Create right-handed value.
-Left-handed type is inferred from usage.
+Create right-handed value, left-handed type is inferred from usage.
 Technically, `Right` returns the same as `of`; the difference is only in the type inference.
 
 ### Left
 ```javascript
-function Left<-R, L>(value: L): Apropos<R, L>
+function Left<L, -R>(value: L): Apropos<L, R>
 ```
 
-Create left-handed value.
-Right-handed type is inferred from usage
+Create left-handed value, right-handed type is inferred from usage
 
 ### is
 ```javascript
@@ -78,7 +84,7 @@ function makeError<-Tag>(tag: Tag): <Context>(data: Context) => AnnotatedError<C
 Create fabric for generating tagged error constructors.
 Useful in `.mapL`.
 
-See [annotated errors](https://github.com/zerobias/apropos#annotated-errors)
+See [annotated errors](#annotated-errors)
 
 ## Instance methods
 

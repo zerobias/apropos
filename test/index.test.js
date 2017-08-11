@@ -1,4 +1,4 @@
-const { is, of, Left, Right, makeError } = require('../lib')
+const { is, of, ofL, Left, Right, makeError } = require('../lib')
 
 
 
@@ -20,9 +20,15 @@ describe('smoke test', () => {
   test('Left value', () => {
     const data = {}
     const l = Left(data)
+    const l1 = ofL(data)
+
     expect(l).toHaveProperty('value', data)
     expect(l.isRight()).toBe(false)
     expect(l.isLeft()).toBe(true)
+
+    expect(l1).toHaveProperty('value', data)
+    expect(l1.isRight()).toBe(false)
+    expect(l1.isLeft()).toBe(true)
   })
 
 
@@ -57,4 +63,3 @@ test('annotated error', () => {
     data
   })
 })
-

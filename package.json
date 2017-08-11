@@ -1,13 +1,12 @@
 {
   "description": "Strong typed functional 'Either'",
   "name": "apropos",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
-  "types": "index.d.ts",
-  "typings": "index.d.ts",
+  "types": "apropos.d.ts",
   "scripts": {
     "types": "flow-copy-source src lib && flow-copy-source src es",
     "prepublish": "npm run rebuild:es && npm run rebuild:cjs && npm run types",
