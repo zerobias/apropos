@@ -31,6 +31,16 @@ export class EitherRight<R, L> extends Isomer implements Apropos<R, L> {
     return new EitherLeft(this.value)
   }
 
+  equals(value: any): boolean {
+    if (value instanceof Isomer) {
+      if (value instanceof EitherRight) {
+        return value.value === this.value
+      } else
+        return false
+    } else
+      return value === this.value
+  }
+
 
 
   // --- Tap section ---
@@ -172,6 +182,16 @@ export class EitherLeft<R, L> extends Isomer implements Apropos<R, L> {
 
   swap(): Apropos<L, R> {
     return new EitherRight(this.value)
+  }
+
+  equals(value: any): boolean {
+    if (value instanceof Isomer) {
+      if (value instanceof EitherLeft) {
+        return value.value === this.value
+      } else
+        return false
+    } else
+      return value === this.value
   }
 
 

@@ -57,4 +57,6 @@ export interface Apropos<R, L> {
 
   isRight(): boolean,
   isLeft(): boolean,
+
+  equals(value: any): boolean,
 }
