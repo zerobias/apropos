@@ -11,12 +11,12 @@ $ npm install --save apropos
 
 ## API
 
-- [of](https://github.com/zerobias/apropos#of)
-- [ofL](#ofL)
-- [Right](https://github.com/zerobias/apropos#Right)
-- [Left](https://github.com/zerobias/apropos#Left)
-- [is](https://github.com/zerobias/apropos#is)
-- [makeError](https://github.com/zerobias/apropos#makeError)
+- [of](#of)
+- [ofL](#ofl)
+- [Right](#right)
+- [Left](#left)
+- [is](#is)
+- [makeError](#makeerror)
 
 ```javascript
 //@flow
@@ -84,7 +84,7 @@ function makeError<-Tag>(tag: Tag): <Context>(data: Context) => AnnotatedError<C
 Create fabric for generating tagged error constructors.
 Useful in `.mapL`.
 
-See [annotated errors](https://github.com/zerobias/apropos#annotated-errors)
+See [annotated errors](#annotated-errors)
 
 ## Instance methods
 
