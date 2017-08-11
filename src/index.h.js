@@ -8,51 +8,65 @@ export opaque type RightIsomer: IsomerSign = 'right'
 export const leftIsomer: LeftIsomer = 'left'
 export const rightIsomer: RightIsomer = 'right'
 
-export interface Apropos<R, L> {
-  map<R1>(fn: (x: R) => R1): Apropos<R1, L>,
-  mapR<R1>(fn: (x: R) => R1): Apropos<R1, L>,
-  mapL<L1>(fn: (x: L) => L1): Apropos<R, L1>,
-  bimap<R1, L1>(r: (x: R) => R1, l: (x: L) => L1): Apropos<R1, L1>,
+/**
+ * Either `Left` or `Right`
+ *
+ * @interface Apropos
+ * @template L
+ * @template R
+ */
+export interface Apropos<L, R> {
+  map<R1>(fn: (x: R) => R1): Apropos<L, R1>,
+  mapR<R1>(fn: (x: R) => R1): Apropos<L, R1>,
+  mapL<L1>(fn: (x: L) => L1): Apropos<L1, R>,
+  bimap<L1, R1>(l: (x: L) => L1, r: (x: R) => R1): Apropos<L1, R1>,
 
 
-  tap(fn: (x: R) => any): Apropos<R, L>,
-  tapR(fn: (x: R) => any): Apropos<R, L>,
-  tapL(fn: (x: L) => any): Apropos<R, L>,
-  bitap(r: (x: R) => any, l: (x: L) => any): Apropos<R, L>,
+  tap(fn: (x: R) => any): Apropos<L, R>,
+  tapR(fn: (x: R) => any): Apropos<L, R>,
+  tapL(fn: (x: L) => any): Apropos<L, R>,
+  bitap(l: (x: L) => any, r: (x: R) => any): Apropos<L, R>,
 
 
-  chain<R1, L1>(fn: (x: R) => Apropos<R1, L1>): Apropos<R1, L | L1>,
-  chainR<R1, L1>(fn: (x: R) => Apropos<R1, L1>): Apropos<R1, L | L1>,
-  chainL<R1, L1>(fn: (x: L) => Apropos<R1, L1>): Apropos<R | R1, L1>,
-  bichain<R1, R2, L1, L2>(
-    r: (x: R) => Apropos<R1, L1>,
-    l: (x: L) => Apropos<R2, L2>
-  ): Apropos<R1 | R2, L1 | L2>,
+  chain<L1, R1>(fn: (x: R) => Apropos<L1, R1>): Apropos<L | L1, R1>,
+  chainR<L1, R1>(fn: (x: R) => Apropos<L1, R1>): Apropos<L | L1, R1>,
+  chainL<L1, R1>(fn: (x: L) => Apropos<L1, R1>): Apropos<L1, R | R1>,
+  bichain<L1, L2, R1, R2>(
+    l: (x: L) => Apropos<L2, R2>,
+    r: (x: R) => Apropos<L1, R1>
+  ): Apropos<L1 | L2, R1 | R2>,
 
 
   cond(fn: (x: R) => boolean): boolean,
-  chainCond<R1, L1>(
+  chainCond<L1, R1>(
     cond: (x: R) => boolean,
     pass: (x: R) => R1,
     fail: (x: R) => L1
-  ): Apropos<R1, L | L1>,
-  logic<R1, L1>({
+  ): Apropos<L | L1, R1>,
+  logic<L1, R1>({
     cond: (x: R) => boolean,
     pass: (x: R) => R1,
     fail: (x: R) => L1
-  }): Apropos<R1, L | L1>,
+  }): Apropos<L | L1, R1>,
 
 
-  alt<R1, L1>(e: Apropos<R1, L1>): Apropos<R | R1, L1>,
-  and<R1, L1>(e: Apropos<R1, L1>): Apropos<R1, L | L1>,
-  ap<R1, L1>(e: Apropos<((x: R) => R1), L1>): Apropos<R1, L | L1>,
+  alt<L1, R1>(e: Apropos<L1, R1>): Apropos<L1, R | R1>,
+  or<L1, R1>(e: Apropos<L1, R1>): Apropos<L1, R | R1>,
+  and<L1, R1>(e: Apropos<L1, R1>): Apropos<L | L1, R1>,
+  ap<L1, R1>(e: Apropos<L1, ((x: R) => R1)>): Apropos<L | L1, R1>,
 
 
-  thru<R1, L1>(fn: (x: Apropos<R, L>) => Apropos<R1, L1>): Apropos<R1, L1>,
+  thru<L1, R1>(fn: (x: Apropos<L, R>) => Apropos<L1, R1>): Apropos<L1, R1>,
   orElse(value: R): R,
-  swap(): Apropos<L, R>,
+  swap(): Apropos<R, L>,
+
+  /**
+   * Converts Either to Promise, which resolves with right value or rejects with left
+   *
+   * @returns {Promise<R>}
+   */
   promise(): Promise<R>,
-  fold<O>(r: (x: R) => O, l: (x: L) => O): O,
+  fold<O>(l: (x: L) => O, r: (x: R) => O): O,
 
 
   isRight(): boolean,
