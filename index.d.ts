@@ -49,6 +49,7 @@ declare module 'apropos' {
 
     isRight(): boolean,
     isLeft(): boolean,
+    equals(value: any): boolean,
   }
 
   export interface TaggedError<Tag, Context> {
@@ -112,11 +113,9 @@ declare module 'apropos' {
   /**
    * Checks whether an object is an instance of `Apropos`
    *
-   * @template T
-   * @param {T} value
    * @returns {boolean}
    */
-  export function is(value: any): boolean
+  export function is(value: any): value is Apropos<any, any>
 
   export default of
 }

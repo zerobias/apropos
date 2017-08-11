@@ -1,7 +1,7 @@
 {
   "description": "Strong typed functional 'Either'",
   "name": "apropos",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -11,7 +11,7 @@
   "scripts": {
     "types": "flow-copy-source src lib && flow-copy-source src es",
     "prepublish": "npm run rebuild:es && npm run rebuild:cjs && npm run types",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config=jest.json",
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "cross-env BABEL_ENV=commonjs babel src/ -d lib -s",
     "build:es": "babel src/ -d es -s",
@@ -60,5 +60,12 @@
     "es",
     ".flowconfig",
     "index.d.ts"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zerobias/apropos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zerobias/apropos/issues"
+  }
 }
