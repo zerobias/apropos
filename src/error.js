@@ -29,4 +29,4 @@ export type MakeError<-Tag = ''> = <-Context>(data: Context) => TaggedError<Tag,
  * @template Tag
  * @param {(Tag|String)} tag
  */
-export const makeError = <-Tag>(tag: Tag): MakeError<Tag> => data => new AnnotatedError(tag, data)
+export const makeError = <-Tag>(tag: Tag): MakeError<Tag> => data => new AnnotatedError(data, tag)
