@@ -74,3 +74,25 @@ export interface Apropos<L, R> {
 
   equals(value: any): boolean,
 }
+
+export interface Maybe<T> {
+  map<Tʹ>(fn: (x: T) => Tʹ): Maybe<Tʹ>,
+  chain<Tʹ>(fn: (x: T) => Maybe<Tʹ>): Maybe<Tʹ>,
+  tap(fn: (x: T) => any): Maybe<T>,
+  fold<O>(l: () => O, r: (x: T) => O): O,
+  orElse(x: T): T,
+
+  alt<S>(maybe: Maybe<S>): Maybe<T | S>,
+  both<S>(maybe: Maybe<S>): Maybe<[T, S]>,
+  and<S>(maybe: Maybe<S>): Maybe<S>,
+
+  match<J, N>({
+    Just: (x: T) => J,
+    Nothing: () => N,
+  }): J | N,
+
+  promise(): Promise<T>,
+  equals(value: any): boolean,
+  isJust(): boolean,
+  isNothing(): boolean,
+}

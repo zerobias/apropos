@@ -3,7 +3,7 @@
 import Isomer, { makeRight, makeLeft } from './base'
 import { type Apropos } from './index.h'
 
-
+export type { Apropos as Either }
 
 export class EitherRight<L, R> extends Isomer implements Apropos<L, R> {
   value: R
@@ -395,4 +395,3 @@ declare function concatL<L, +L1, R>(r: Apropos<L, R>): Apropos<L | L1, R>
 declare function changeR<L, -R, +R1>(r: Apropos<L, R>): Apropos<L, R1>
 
 declare function concatR<L, R, +R1>(r: Apropos<L, R>): Apropos<L, R | R1>
-

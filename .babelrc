@@ -4,6 +4,11 @@
   "plugins": [
     "transform-flow-strip-types",
     "transform-class-properties",
+    ["minify-dead-code-elimination", {
+      "keepFnName": true,
+      "keepFnArgs": true,
+      "keepClassName": true
+    }],
     ["transform-es2015-block-scoping", {
       "throwIfClosureRequired": false
     }],
