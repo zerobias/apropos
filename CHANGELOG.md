@@ -1,3 +1,7 @@
+# 0.4.0
+- Add `Maybe` type
+- Add namespace `Either`
+
 # 0.3.0
 - **Breaking**. Flip L (left) and R (right) generics: `Apropos<R, L>` becomes `Apropos<L, R>`
 - Add `ofL` function

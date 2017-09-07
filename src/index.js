@@ -10,3 +10,9 @@ export { makeError } from './error'
 
 import { of } from './isomer'
 export default of
+
+import * as Either from './isomer'
+export { Either }
+
+import * as Maybe from './maybe'
+export { Maybe }
