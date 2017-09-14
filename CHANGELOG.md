@@ -1,3 +1,10 @@
+# 0.5.0
+- Add `Tuple` type
+- Add `Identity` type
+- Add fantasy-land methods
+- Add sanctuary types
+- Add static `fold` method
+
 # 0.4.0
 - Add `Maybe` type
 - Add namespace `Either`
