@@ -6,6 +6,10 @@
 all=warn
 untyped-type-import=error
 
+[libs]
+./flow/
+./flow-typed/
+
 [options]
 max_header_tokens=30
 esproposal.class_instance_fields=enable
