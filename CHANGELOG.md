@@ -1,3 +1,6 @@
+# 0.6.1
+- Add static `validate` function
+
 # 0.6.0
 - Add `chainCond`, `logic` and `pred` methods for `Maybe`
 

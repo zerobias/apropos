@@ -228,6 +228,10 @@ export function empty<+T>(): Maybe<T> {
   return new MaybeNothing(/*:: t */)
 }
 
+export function validate<T>(validators: $ReadOnlyArray<((x: T) => boolean)>) {
+  return (x: T): Maybe<T> => validators.reduce((acc, fn) => acc.pred(fn), new MaybeJust(x))
+}
+
 export function fromNullable<T>(value: ?T): Maybe<T> {
   declare var t: T
   if (value == null) return new MaybeNothing(/*:: t */)
