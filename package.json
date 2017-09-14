@@ -1,7 +1,7 @@
 {
-  "description": "Strong typed functional 'Either' and 'Maybe'",
+  "description": "Strong typed functional 'Either', 'Maybe', 'Identity' and 'Tuple'",
   "name": "apropos",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -52,6 +52,8 @@
   "keywords": [
     "either",
     "maybe",
+    "tuple",
+    "identity",
     "functional",
     "fp",
     "monad",
