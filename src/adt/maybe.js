@@ -39,6 +39,31 @@ class MaybeJust<T> extends MaybeBase implements Maybe<T> {
     return this.value
   }
 
+  chainCond<Tʹ>(
+    cond: (x: T) => boolean,
+    pass: (x: T) => Tʹ
+  ): Maybe<Tʹ> {
+    if (cond(this.value))
+      return new MaybeJust(pass(this.value))
+    declare var t: Tʹ
+    return new MaybeNothing(/*:: t */)
+  }
+
+  logic<Tʹ>(transformer: {
+    cond: (x: T) => boolean,
+    pass: (x: T) => Tʹ
+  }): Maybe<Tʹ> {
+    const { cond, pass } = transformer
+    return this.chainCond(cond, pass)
+  }
+
+  pred(check: (x: T) => boolean): Maybe<T> {
+    if (check(this.value))
+      return this
+    declare var t: T
+    return new MaybeNothing(/*:: t */)
+  }
+
   match<J, N>(transformer: {
     Just: (x: T) => J,
     Nothing: () => N,
@@ -108,6 +133,26 @@ class MaybeNothing<T> extends MaybeBase implements Maybe<T> {
 
   orElse(x: T): T {
     return x
+  }
+
+  chainCond<Tʹ>(/*::
+    cond: (x: T) => boolean,
+    pass: (x: T) => Tʹ
+  */): Maybe<Tʹ> {
+    declare var t: Tʹ
+    return new MaybeNothing(/*:: t */)
+  }
+
+  logic<Tʹ>(transformer: {
+    cond: (x: T) => boolean,
+    pass: (x: T) => Tʹ
+  }): Maybe<Tʹ> {
+    const { cond, pass } = transformer
+    return this.chainCond(cond, pass)
+  }
+
+  pred(/*:: check: (x: T) => boolean */): Maybe<T> {
+    return this
   }
 
   match<J, N>(transformer: {

@@ -93,6 +93,16 @@ export interface Maybe<T> extends Fold2<void, T> {
     Nothing: () => N,
   }): J | N,
 
+  chainCond<Tʹ>(
+    cond: (x: T) => boolean,
+    pass: (x: T) => Tʹ
+  ): Maybe<Tʹ>,
+  logic<Tʹ>({
+    cond: (x: T) => boolean,
+    pass: (x: T) => Tʹ
+  }): Maybe<Tʹ>,
+  pred(check: (x: T) => boolean): Maybe<T>,
+
   promise(): Promise<T>,
   equals(value: any): boolean,
   isJust(): boolean,
