@@ -1,3 +1,6 @@
+# 0.6.0
+- Add `chainCond`, `logic` and `pred` methods for `Maybe`
+
 # 0.5.0
 - Add `Tuple` type
 - Add `Identity` type
