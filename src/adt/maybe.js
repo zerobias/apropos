@@ -1,18 +1,16 @@
 //@flow
 
-import { type Maybe } from './index.h'
+import Base from '../base'
+import { type Maybe } from '../index.h'
+import { failSafeStringify, addInterop } from '../util'
 
-/*::
 type MaybeSign = 'just' | 'nothing'
-*/
 
-class MaybeBase {
-  -isomer: MaybeSign
-}
+class MaybeBase extends Base { isomer: MaybeSign }
 
 export type { Maybe }
 
-export class MaybeJust<T> extends MaybeBase implements Maybe<T> {
+class MaybeJust<T> extends MaybeBase implements Maybe<T> {
   value: T
   constructor(value: T): Maybe<T> {
     super()
@@ -80,9 +78,13 @@ export class MaybeJust<T> extends MaybeBase implements Maybe<T> {
   isNothing() {
     return false
   }
+
+  toString() {
+    return 'Just( ' + failSafeStringify(this.value) + ' )'
+  }
 }
 
-export class MaybeNothing<T> extends MaybeBase implements Maybe<T> {
+class MaybeNothing<T> extends MaybeBase implements Maybe<T> {
   constructor(/*:: value: T */): Maybe<T> {
     super()
     /*:: return this */
@@ -142,12 +144,11 @@ export class MaybeNothing<T> extends MaybeBase implements Maybe<T> {
   isNothing() {
     return true
   }
+
+  toString() {
+    return 'Nothing()'
+  }
 }
-
-declare function toPair<T, +S>(maybe: Maybe<T>): Maybe<[T, S]>
-declare function addS<T, +S>(maybe: Maybe<T>): Maybe<T | S>
-
-declare function changeT<-T, +Tʹ>(maybe: Maybe<T>): Maybe<Tʹ>
 
 Object.defineProperty(MaybeJust.prototype, 'isomer', {
   value     : 'just',
@@ -160,6 +161,9 @@ Object.defineProperty(MaybeNothing.prototype, 'isomer', {
   enumerable: true,
   writable  : false,
 })
+
+addInterop(MaybeJust, 'Maybe')
+addInterop(MaybeNothing, 'Maybe')
 
 export function Just<T>(value: T): Maybe<T> {
   return new MaybeJust(value)
@@ -184,3 +188,8 @@ export function fromNullable<T>(value: ?T): Maybe<T> {
   if (value == null) return new MaybeNothing(/*:: t */)
   return new MaybeJust(value)
 }
+
+declare function toPair<T, +S>(maybe: Maybe<T>): Maybe<[T, S]>
+declare function addS<T, +S>(maybe: Maybe<T>): Maybe<T | S>
+
+declare function changeT<-T, +Tʹ>(maybe: Maybe<T>): Maybe<Tʹ>
