@@ -18,7 +18,6 @@ const callAssign = {
 
 class ExtendableErrorClass extends Error {}
 */
-type ErrorType = typeof ExtendableErrorClass
 
 function ErrorFunction(message: string) {
   const Err = /*::Object.assign({}, callAssign, */Error/*::)*/
@@ -37,6 +36,6 @@ function ErrorFunction(message: string) {
 ErrorFunction.prototype = Object.create(Error.prototype)
 ErrorFunction.prototype.constructor = ErrorFunction
 
-const ExtendableError: ErrorType = (ErrorFunction: any)
+const ExtendableError: Class<ExtendableErrorClass> = (ErrorFunction: any)
 
 export default ExtendableError

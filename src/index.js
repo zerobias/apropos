@@ -4,15 +4,18 @@ import { type Apropos } from './index.h'
 import { type TaggedError, type MakeError } from './error'
 export type { Apropos, TaggedError, MakeError }
 
-export { is, Right, Left, of, ofL } from './isomer'
+export { is, Right, Left, of, ofL } from './adt/either'
+export { fold } from './point-free'
 
 export { makeError } from './error'
 
-import { of } from './isomer'
+import { of } from './adt/either'
 export default of
 
-import * as Either from './isomer'
-export { Either }
+export * as Either from './adt/either'
 
-import * as Maybe from './maybe'
-export { Maybe }
+export * as Maybe from './adt/maybe'
+
+export * as Identity from './adt/identity'
+
+export * as Tuple from './adt/tuple'
