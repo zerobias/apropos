@@ -19,6 +19,9 @@ class Identityʹ<T> extends Base implements Identity<T> {
     this.value = value
     /*:: return this */
   }
+  ap<S>(id: Identity<((x: T) => S)>): Identity<S> {
+    return id.chain(fn => new Identityʹ(fn(this.value)))
+  }
   map<O>(f: (x: T) => O): Identity<O> {
     return new Identityʹ(f(this.value))
   }

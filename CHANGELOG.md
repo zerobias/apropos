@@ -1,3 +1,6 @@
+# 0.6.2
+- Add `ap` method
+
 # 0.6.1
 - Add static `validate` function
 

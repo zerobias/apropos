@@ -18,6 +18,10 @@ class MaybeJust<T> extends MaybeBase implements Maybe<T> {
     /*:: return this */
   }
 
+  ap<Tʹ>(maybe: Maybe<((x: T) => Tʹ)>): Maybe<Tʹ> {
+    return maybe.chain(fn => this.map(fn))
+  }
+
   map<Tʹ>(fn: (x: T) => Tʹ): Maybe<Tʹ> {
     return new MaybeJust(fn(this.value))
   }
@@ -113,6 +117,10 @@ class MaybeNothing<T> extends MaybeBase implements Maybe<T> {
   constructor(/*:: value: T */): Maybe<T> {
     super()
     /*:: return this */
+  }
+
+  ap<Tʹ>(/*:: maybe: Maybe<((x: T) => Tʹ)> */): Maybe<Tʹ> {
+    return /*:: changeT( */ this /*:: ) */
   }
 
   map<Tʹ>(/*:: fn: (x: T) => Tʹ */): Maybe<Tʹ> {
