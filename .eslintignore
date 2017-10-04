@@ -1,4 +1,6 @@
 lib/**
 es/**
+**/lib/**
+**/es/**
 dist/**
 flow-typed/**

@@ -1,0 +1,32 @@
+{
+  "presets": [
+  ],
+  "plugins": [
+    "preval",
+    "transform-flow-strip-types",
+    "transform-export-extensions",
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    ["minify-dead-code-elimination", {
+      "keepFnName": true,
+      "keepFnArgs": true,
+      "keepClassName": true
+    }],
+    ["transform-es2015-block-scoping", {
+      "throwIfClosureRequired": false
+    }],
+    ["transform-object-rest-spread", { "useBuiltIns": true }]
+  ],
+  "env": {
+    "commonjs": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
+    },
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
+    }
+  }
+}

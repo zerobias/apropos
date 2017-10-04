@@ -9,6 +9,10 @@ untyped-type-import=error
 [libs]
 ./flow/
 ./flow-typed/
+./packages/signature/index.flow.js
+./packages/typeclass/index.flow.js
+./packages/core/index.flow.js
+./packages/identity/index.flow.js
 
 [options]
 max_header_tokens=30

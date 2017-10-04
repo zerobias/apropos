@@ -1,6 +1,6 @@
 {
-  "description": "Strong typed functional 'Either', 'Maybe', 'Identity' and 'Tuple'",
-  "name": "apropos",
+  "description": "",
+  "name": "@apropos/signature",
   "version": "0.7.0",
   "license": "MIT",
   "main": "lib/index.js",
@@ -8,7 +8,7 @@
   "jsnext:main": "es/index.js",
   "scripts": {
     "types": "flow-copy-source src lib && flow-copy-source src es",
-    "postinstall": "lerna bootstrap --hoist",
+    "prepublish": "npm run rebuild:es && npm run rebuild:cjs && npm run types",
     "test": "jest --config=jest.json",
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "cross-env BABEL_ENV=commonjs babel src/ -d lib -s",
@@ -17,39 +17,26 @@
     "clean:cjs": "rimraf lib/",
     "clean:es": "rimraf es/",
     "rebuild:cjs": "npm run clean:cjs & npm run build:cjs",
-    "rebuild:es": "npm run clean:es & npm run build:es"
+    "rebuild:es": "npm run clean:es & npm run build:es",
+    "watch": "npm run build:cjs -- -w"
   },
-  "author": "Zero Bias",
   "devDependencies": {
-    "@types/jest": "^21.1.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.1",
     "babel-macros": "^1.0.2",
     "babel-plugin-minify-dead-code-elimination": "^0.2.0",
     "babel-plugin-preval": "^1.5.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-es2015-block-scoping": "^6.26.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-flow-comments": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "cross-env": "^5.0.5",
-    "eslint": "^4.7.2",
-    "eslint-plugin-babel": "^4.1.2",
-    "eslint-plugin-flowtype": "^2.36.0",
-    "eslint-plugin-jest": "^21.2.0",
-    "eslint-plugin-jsdoc": "^3.1.3",
-    "flow-bin": "^0.56.0",
     "flow-copy-source": "^1.2.1",
-    "jest": "^21.1.0",
-    "lerna": "^2.2.0",
-    "ramda": "^0.24.1",
-    "rimraf": "^2.6.2",
-    "tslint": "^5.7.0",
-    "typescript": "^2.5.3"
+    "rimraf": "^2.6.2"
   },
   "keywords": [
     "either",
@@ -66,8 +53,7 @@
     "src",
     "lib",
     "index.flow.js",
-    "es",
-    ".flowconfig"
+    "es"
   ],
   "repository": {
     "type": "git",
@@ -75,5 +61,6 @@
   },
   "bugs": {
     "url": "https://github.com/zerobias/apropos/issues"
-  }
+  },
+  "author": "Zero Bias"
 }

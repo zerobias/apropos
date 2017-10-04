@@ -112,6 +112,7 @@ export interface Maybe<T> extends Fold2<void, T> {
 }
 
 export interface Identity<T> extends Fold1<T> {
+  length: number,
   map<O>(f: (x: T) => O): Identity<O>,
   ap<S>(id: Identity<((x: T) => S)>): Identity<S>,
   chain<Name, O>(fn: (x: T) => Identity<O>): Identity<O>,
