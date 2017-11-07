@@ -2,7 +2,6 @@
   "presets": [
   ],
   "plugins": [
-    "preval",
     "transform-flow-strip-types",
     "transform-export-extensions",
     "transform-class-properties",

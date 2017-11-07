@@ -1,6 +1,22 @@
 [ignore]
-.*/lib/*.js
-.*/es/*.js
+<PROJECT_ROOT>/lib/*
+<PROJECT_ROOT>/es/*
+<PROJECT_ROOT>/.vscode/*
+<PROJECT_ROOT>/.history/*
+<PROJECT_ROOT>/coverage/*
+<PROJECT_ROOT>/node_modules/*
+<PROJECT_ROOT>/packages/core/lib/*
+<PROJECT_ROOT>/packages/core/es/*
+<PROJECT_ROOT>/packages/core/node_modules/*
+<PROJECT_ROOT>/packages/identity/lib/*
+<PROJECT_ROOT>/packages/identity/es/*
+<PROJECT_ROOT>/packages/identity/node_modules/*
+<PROJECT_ROOT>/packages/signature/lib/*
+<PROJECT_ROOT>/packages/signature/es/*
+<PROJECT_ROOT>/packages/signature/node_modules/*
+<PROJECT_ROOT>/packages/store/*
+<PROJECT_ROOT>/packages/typeclass/*
+<PROJECT_ROOT>/packages/identity/*
 
 [lints]
 all=warn
@@ -10,12 +26,11 @@ untyped-type-import=error
 ./flow/
 ./flow-typed/
 ./packages/signature/index.flow.js
-./packages/typeclass/index.flow.js
 ./packages/core/index.flow.js
-./packages/identity/index.flow.js
+./packages/maybe/index.flow.js
 
 [options]
-max_header_tokens=30
+max_header_tokens=3
 esproposal.class_instance_fields=enable
 esproposal.class_static_fields=enable
 experimental.const_params=true
@@ -23,7 +38,8 @@ suppress_comment=\\(.\\|\n\\)*\\$off
 suppress_type=$off
 unsafe.enable_getters_and_setters=true
 emoji=true
-traces=3
+traces=1
 esproposal.decorators=ignore
 module.use_strict=true
 esproposal.export_star_as=enable
+module.name_mapper='^\(.*\)apropos\(.*\)$' -> '<PROJECT_ROOT>/packages\2'

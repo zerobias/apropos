@@ -6,8 +6,8 @@
 *.*~
 *.swp
 
-lib/**
-es/**
+**/lib/**
+**/es/**
 debug.log
 lerna-debug.log
 node_modules
@@ -23,3 +23,4 @@ src/**/*.draft.js
 test/storage.json
 flow-typed/npm/**
 **/.happypack/**
+docs
