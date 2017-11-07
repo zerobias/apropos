@@ -3,23 +3,24 @@
 /* eslint-disable no-whitespace-before-property */
 
 import { signature } from './signature'
-import {
-  type TypedObject,
-  type Signature,
-  type TypedClass,
+import type {
+  TypedObject,
+  Signature,
+  TypedClass,
 } from './index.h'
 
 const sign = /*:: (*/ signature /*::, '@@signature' ) */
 
 export function hasSignature(obj: Object): boolean {
-  return typeof obj === 'object' && sign in obj
+  return obj != null && (typeof obj === 'object' || typeof obj === 'function') && (sign in obj)
 }
 
-export function getSignature<+Name>(obj: TypedObject<Name>): Signature<Name> {
+
+export function getSignature<Name>(obj: TypedObject<Name>): Signature<Name> {
   return obj[sign]
 }
 
-function addClassSignature<+Name, T: TypedClass<Name>>(
+function addClassSignature<Name, T/*::: TypedClass<Name>*/>(
   classSignature: Signature<Name>,
   klass: Class<T>
 ): Class<T> {
@@ -46,8 +47,8 @@ function addClassSignature<+Name, T: TypedClass<Name>>(
  *
  * @param {Signature} classSignature
  */
-export function classSignature<+Name>(classSignature: Signature<Name>) {
-  return function<T: TypedClass<Name>>(klass: Class<T>): Class<T> {
+export function classSignature<Name>(classSignature: Signature<Name>) {
+  return function<T/*::: TypedClass<Name>*/>(klass: Class<T>): Class<T> {
     return addClassSignature(classSignature, klass)
   }
 }
