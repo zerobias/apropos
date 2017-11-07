@@ -2,7 +2,7 @@
 
 /* eslint-disable no-unused-vars */
 
-export class Base<-Name> {
+export class Base</*::-*/Name> {
   toString() {
     return 'Base()'
   }

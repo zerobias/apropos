@@ -1,7 +1,7 @@
 //@flow
-
+/*::
 import { type TypedClass } from '@apropos/signature'
-
+*/
 function fantasyName(name: string) {
   return [name, `fantasy-land/${name}`]
 }
@@ -40,15 +40,15 @@ function checkAddFL([typeName, fullName], klass) {
   if (typeof classStatic[typeName] === 'function') {
     const fn = classStatic[typeName]
     Object.defineProperty(/*::( */klass/*::, {}) */, fullName, {
-      value       : fn,
-      enumerable  : false,
-      writable    : true,
+      value:        fn,
+      enumerable:   false,
+      writable:     true,
       configurable: true,
     })
   }
 }
 
-export function fantasyType<+Name, T: TypedClass<Name>>(klass: Class<T>): Class<T> {
+export function fantasyType<Name, T/*::: TypedClass<Name>*/>(klass: Class<T>): Class<T> {
   fantasyLandStaticMethods.forEach(names => checkAddFL(names, klass))
   fantasyLandMethods.forEach(names => checkAddFL(names, klass.prototype))
   return klass
