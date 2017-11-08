@@ -20,11 +20,3 @@ declare module '@apropos/identity' {
 
   declare export function of<T>(value: T): Identity<T>
 }
-
-declare module '@apropos/typeclass' {
-  import type { Identity } from '@apropos/identity'
-
-  declare export function chain<I, O>(fn: (x: I) => Identity<O>): (
-    (x: Identity<I>) => Identity<O>
-  )
-}

@@ -10,15 +10,9 @@ import {
   type Signature,
 } from '@apropos/core'
 
-import {
-  type ADT,
-  type Chain,
-  type Map,
-} from '@apropos/typeclass'
-
 const sign = classSignature({
   meta: {
-    name : 'Identity',
+    name:  'Identity',
     scope: 'apropos',
   },
 })
@@ -30,11 +24,7 @@ const sign = classSignature({
 export class Identity<T>
   extends Base<'Identity'>
   implements
-    TypedClass<'Identity'>,
-    // Identity<T>,
-    ADT<'Identity', true, true, T, void, void>,
-    Chain<'Identity', true, T, void, void>,
-    Map<'Identity', T, void, void> {
+    TypedClass<'Identity'> {
   value: T
   length: number
   signature: Signature<'Identity'>
@@ -42,11 +32,11 @@ export class Identity<T>
     super()
     this.value = value
   }
-  chain<Nameʹ, Mapʹ: true | false, Aʹ, Bʹ, Cʹ>(
-    fn: (x: T) => Chain<Nameʹ, Mapʹ, Aʹ, Bʹ, Cʹ>
-  ): Chain<Nameʹ, Mapʹ, Aʹ, Bʹ, Cʹ> {
-    return fn(this.value)
-  }
+  // chain<Nameʹ, Mapʹ: true | false, Aʹ, Bʹ, Cʹ>(
+  //   fn: (x: T) => Chain<Nameʹ, Mapʹ, Aʹ, Bʹ, Cʹ>
+  // ): Chain<Nameʹ, Mapʹ, Aʹ, Bʹ, Cʹ> {
+  //   return fn(this.value)
+  // }
   map<O>(fn: (x: T) => O): Identity<O> {
     return new Identity(fn(this.value))
   }
