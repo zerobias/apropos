@@ -1,7 +1,7 @@
 {
   "description": "Strong typed functional 'Either', 'Maybe' and 'Tuple'",
   "name": "apropos",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -21,9 +21,9 @@
     "watch": "npm run build:cjs -- -w"
   },
   "dependencies": {
-    "@apropos/maybe": "^0.7.1",
-    "@apropos/either": "^0.7.0",
-    "@apropos/tuple": "^0.7.0"
+    "@apropos/maybe": "^1.0.1",
+    "@apropos/either": "^1.0.1",
+    "@apropos/tuple": "^1.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

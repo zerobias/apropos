@@ -1,7 +1,7 @@
 {
   "description": "Strong typed functional 'Either', 'Maybe', 'Identity' and 'Tuple'",
   "name": "@apropos/typeclass",
-  "version": "0.7.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",

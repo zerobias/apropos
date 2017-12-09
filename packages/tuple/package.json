@@ -1,7 +1,7 @@
 {
   "description": "Strong typed functional 'Tuple'",
   "name": "@apropos/tuple",
-  "version": "0.7.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -21,7 +21,7 @@
     "watch": "npm run build:cjs -- -w"
   },
   "dependencies": {
-    "@apropos/core": "^0.7.0"
+    "@apropos/core": "^1.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
