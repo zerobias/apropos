@@ -7,6 +7,7 @@
   "scripts": {
     "types": "flow-copy-source src lib && flow-copy-source src es",
     "flow": "pm2 start flow-apropos.sh",
+    "flow:stop": "pm2 stop flow-apropos",
     "test": "jest --config=jest.json",
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "cross-env BABEL_ENV=commonjs babel src/ -d lib -s",
@@ -32,6 +33,7 @@
     "eslint-plugin-jsdoc": "^3.2.0",
     "flow-bin": "^0.61.0",
     "flow-copy-source": "^1.2.1",
+    "flow-typed": "^2.2.3",
     "jest": "^21.2.1",
     "lerna": "^2.5.1",
     "pm2": "^2.8.0",

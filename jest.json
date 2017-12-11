@@ -1,8 +1,16 @@
 {
+  "automock": false,
   "collectCoverage": true,
   "coverageDirectory": "<rootDir>/coverage",
   "coverageReporters": [
-    "text"
+    "text", "html"
+  ],
+  "transform": {
+    "^.+\\.jsx?$": "babel-jest"
+  },
+  "projects": [
+    "<rootDir>/packages/reader",
+    "<rootDir>/packages/maybe"
   ],
   "testEnvironment": "node"
 }

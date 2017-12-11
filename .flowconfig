@@ -15,7 +15,9 @@
 <PROJECT_ROOT>/packages/signature/es/*
 <PROJECT_ROOT>/packages/signature/node_modules/*
 <PROJECT_ROOT>/packages/store/*
-<PROJECT_ROOT>/packages/typeclass/*
+<PROJECT_ROOT>/packages/typeclass/lib/*
+<PROJECT_ROOT>/packages/typeclass/es/*
+<PROJECT_ROOT>/packages/typeclass/node_modules/*
 <PROJECT_ROOT>/packages/identity/*
 
 [lints]
@@ -28,6 +30,7 @@ untyped-type-import=error
 ./packages/signature/index.flow.js
 ./packages/core/index.flow.js
 ./packages/maybe/index.flow.js
+./packages/typeclass/index.flow.js
 
 [options]
 max_header_tokens=3
